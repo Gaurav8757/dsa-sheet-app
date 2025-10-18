@@ -236,6 +236,140 @@ body {
   color: #155724;
 }
 
+/* Progress page premium styling */
+.progress-page .progress-hero {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.12),
+    rgba(118, 75, 162, 0.12)
+  );
+  padding: 3rem 0 2rem 0;
+}
+
+.progress-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.progress-hero h1 {
+  font-size: 2.4rem;
+  color: #2b2b2b;
+  margin-bottom: 0.25rem;
+}
+
+.progress-hero .lead {
+  color: #555;
+  margin-bottom: 1.25rem;
+}
+
+.progress-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.overview-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.75)
+  );
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(45, 35, 70, 0.06);
+}
+
+.overview-card.muted {
+  opacity: 0.95;
+}
+
+.overview-title {
+  color: #666;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.overview-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #3b3b3b;
+  margin-top: 0.25rem;
+}
+.overview-sub {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 0.25rem;
+}
+
+.glass-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.7)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.breakdown {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+.break-item {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px;
+  align-items: center;
+  gap: 1rem;
+}
+.break-label {
+  font-weight: 700;
+  color: #444;
+}
+.break-value {
+  font-weight: 800;
+  color: #333;
+}
+
+.progress-bar {
+  height: 14px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.progress-fill.easy {
+  background: linear-gradient(90deg, #b7e4c7, #6fcf97);
+}
+.progress-fill.medium {
+  background: linear-gradient(90deg, #ffeb99, #ffb86b);
+}
+.progress-fill.hard {
+  background: linear-gradient(90deg, #ffb3b3, #ff6b6b);
+}
+
+@media screen and (max-width: 900px) {
+  .progress-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .break-item {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .break-label {
+    font-size: 0.95rem;
+  }
+  .break-value {
+    text-align: right;
+  }
+}
+
 /* Problems List */
 .problems-list {
   margin-top: 2rem;

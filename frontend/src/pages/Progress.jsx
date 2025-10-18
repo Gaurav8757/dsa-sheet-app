@@ -34,48 +34,93 @@ const Progress = () => {
   };
 
   const percentFor = (level) => {
-    if (!stats) return "0%";
+    if (!stats) return 0;
     const count = stats.byLevel[level] || 0;
     const pct =
-      stats.totalProblems > 0
-        ? ((count / stats.totalProblems) * 100).toFixed(2)
-        : "0.00";
-    return `${pct}%`;
+      stats.totalProblems > 0 ? (count / stats.totalProblems) * 100 : 0;
+    return Math.round(pct);
   };
 
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="app">
+    <div className="app progress-page">
       <Navbar />
-      <div className="container">
-        <div className="card">
-          <h2>Progress Report</h2>
-          <p>
-            Overall completion: {stats.percentage}% ({stats.completedProblems}/
-            {stats.totalProblems})
-          </p>
-        </div>
 
-        <div className="card">
-          <h3>By Difficulty</h3>
-          <div className="progress-grid">
-            <div className="progress-item">
-              <h4>Easy</h4>
-              <p>{percentFor("Easy")}</p>
+      <section className="progress-hero">
+        <div className="progress-hero-inner">
+          <h1>Learning Progress</h1>
+          <p className="lead">
+            Track your journey. Small steps every day add up.
+          </p>
+          <div className="progress-overview">
+            <div className="overview-card">
+              <div className="overview-title">Overall Completion</div>
+              <div className="overview-value">{stats.percentage}%</div>
+              <div className="overview-sub">
+                {stats.completedProblems} / {stats.totalProblems} solved
+              </div>
             </div>
-            <div className="progress-item">
-              <h4>Medium</h4>
-              <p>{percentFor("Medium")}</p>
+            <div className="overview-card muted">
+              <div className="overview-title">Easy</div>
+              <div className="overview-value">{percentFor("Easy")}%</div>
             </div>
-            <div className="progress-item">
-              <h4>Hard</h4>
-              <p>{percentFor("Tough") /* backend uses 'Tough' for hard */}</p>
+            <div className="overview-card muted">
+              <div className="overview-title">Medium</div>
+              <div className="overview-value">{percentFor("Medium")}%</div>
+            </div>
+            <div className="overview-card muted">
+              <div className="overview-title">Hard</div>
+              <div className="overview-value">{percentFor("Tough")}%</div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <main className="container">
+        <div className="card glass-card">
+          <h2>Progress Breakdown</h2>
+          <p className="muted">
+            Completion distributed across difficulty levels.
+          </p>
+
+          <div className="breakdown">
+            <div className="break-item">
+              <div className="break-label">Easy</div>
+              <div className="progress-bar">
+                <div
+                  className="progress-fill easy"
+                  style={{ width: `${percentFor("Easy")}%` }}
+                />
+              </div>
+              <div className="break-value">{percentFor("Easy")}%</div>
+            </div>
+
+            <div className="break-item">
+              <div className="break-label">Medium</div>
+              <div className="progress-bar">
+                <div
+                  className="progress-fill medium"
+                  style={{ width: `${percentFor("Medium")}%` }}
+                />
+              </div>
+              <div className="break-value">{percentFor("Medium")}%</div>
+            </div>
+
+            <div className="break-item">
+              <div className="break-label">Hard</div>
+              <div className="progress-bar">
+                <div
+                  className="progress-fill hard"
+                  style={{ width: `${percentFor("Tough")}%` }}
+                />
+              </div>
+              <div className="break-value">{percentFor("Tough")}%</div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
