@@ -6,7 +6,7 @@ module.exports = {
       script: "npm",
       args: "start",
       cwd: "/data-sheet-app/backend",
-      watch: false, // optional
+      watch: true, // optional
       env: {
         NODE_ENV: "production",
         PORT: 5000,
@@ -19,7 +19,7 @@ module.exports = {
       script: "npm",
       args: "run preview", // matches your Vite script
       cwd: "/data-sheet-app/frontend",
-      watch: false,
+      watch: true,
       env: {
         NODE_ENV: "production",
         PORT: 5173, // default Vite preview port
