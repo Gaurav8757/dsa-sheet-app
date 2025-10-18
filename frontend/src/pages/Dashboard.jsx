@@ -1,14 +1,19 @@
-import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { getTopics, getProgressStats } from '../services/api';
-import Navbar from '../components/Navbar';
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import {
+  getTopics,
+  getProgressStats,
+  getProblems,
+  getUserProgress,
+} from "../services/api";
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
   const [topics, setTopics] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -19,14 +24,42 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [topicsData, statsData] = await Promise.all([
-        getTopics(),
-        getProgressStats(),
-      ]);
-      setTopics(topicsData);
+      const [topicsData, statsData, problemsData, progressData] =
+        await Promise.all([
+          getTopics(),
+          getProgressStats(),
+          getProblems(),
+          getUserProgress(),
+        ]);
+
+      // Build a map of total problems per topic
+      const totalByTopic = {};
+      problemsData.forEach((p) => {
+        const tid = p.topic?._id || p.topic;
+        totalByTopic[tid] = (totalByTopic[tid] || 0) + 1;
+      });
+
+      // Build a map of completed problems per topic
+      const completedByTopic = {};
+      progressData.forEach((pr) => {
+        if (pr.completed && pr.problem && pr.problem.topic) {
+          const tid = pr.problem.topic._id || pr.problem.topic;
+          completedByTopic[tid] = (completedByTopic[tid] || 0) + 1;
+        }
+      });
+
+      // Attach total, completed and pending counts to topic objects
+      const topicsWithCounts = topicsData.map((t) => {
+        const total = totalByTopic[t._id] || 0;
+        const completed = completedByTopic[t._id] || 0;
+        const pending = Math.max(0, total - completed);
+        return { ...t, total, completed, pending };
+      });
+
+      setTopics(topicsWithCounts);
       setStats(statsData);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to fetch data');
+      setError(err.response?.data?.message || "Failed to fetch data");
     } finally {
       setLoading(false);
     }
@@ -75,7 +108,17 @@ const Dashboard = () => {
                 onClick={() => handleTopicClick(topic._id)}
               >
                 <div className="topic-icon">{topic.icon}</div>
-                <h3>{topic.name}</h3>
+                <h3>
+                  {topic.name}
+                  {/*  */}
+                  {topic.pending > 0 ? (
+                    <span className="topic-badge">
+                      Pending: {topic.pending}
+                    </span>
+                  ) : topic.total > 0 ? (
+                    <span className="topic-badge completed">Completed</span>
+                  ) : null}
+                </h3>
                 <p>{topic.description}</p>
               </div>
             ))}

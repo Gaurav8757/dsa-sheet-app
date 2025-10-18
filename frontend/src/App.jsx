@@ -1,11 +1,17 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import TopicProblems from './pages/TopicProblems';
-import PrivateRoute from './components/PrivateRoute';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import TopicProblems from "./pages/TopicProblems";
+import Progress from "./pages/Progress";
+import PrivateRoute from "./components/PrivateRoute";
+import "./App.css";
 
 function App() {
   return (
@@ -27,6 +33,14 @@ function App() {
             element={
               <PrivateRoute>
                 <TopicProblems />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/progress"
+            element={
+              <PrivateRoute>
+                <Progress />
               </PrivateRoute>
             }
           />

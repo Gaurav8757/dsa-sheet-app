@@ -220,6 +220,22 @@ body {
   font-size: 0.9rem;
 }
 
+.topic-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  background: #fff3cd;
+  color: #856404;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.topic-badge.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
 /* Problems List */
 .problems-list {
   margin-top: 2rem;
@@ -307,6 +323,30 @@ body {
 
 .problem-link:hover {
   background: #e0e0e0;
+}
+
+.problem-status {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.status-label {
+  padding: 0.4rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.status-label.done {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-label.pending {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #e9ecef;
 }
 
 /* Loading & Error */

@@ -161,6 +161,15 @@ const TopicProblems = () => {
                     )}
                   </div>
                 </div>
+                <div className="problem-status">
+                  <span
+                    className={`status-label ${
+                      progress[problem._id] ? "done" : "pending"
+                    }`}
+                  >
+                    {progress[problem._id] ? "Done" : "Pending"}
+                  </span>
+                </div>
               </div>
             ))
           )}
