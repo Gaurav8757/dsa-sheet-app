@@ -1,8 +1,6 @@
 import Topic from '../models/Topic.js';
 
-// @desc    Get all topics
-// @route   GET /api/topics
-// @access  Private
+// Get all topics
 export const getTopics = async (req, res) => {
   try {
     const topics = await Topic.find().sort({ order: 1 });
@@ -12,9 +10,7 @@ export const getTopics = async (req, res) => {
   }
 };
 
-// @desc    Get single topic
-// @route   GET /api/topics/:id
-// @access  Private
+// Get topic by ID
 export const getTopicById = async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id);
@@ -29,9 +25,7 @@ export const getTopicById = async (req, res) => {
   }
 };
 
-// @desc    Create a topic
-// @route   POST /api/topics
-// @access  Private
+// Create a new topic
 export const createTopic = async (req, res) => {
   try {
     const { name, description, order, icon } = req.body;
@@ -49,9 +43,7 @@ export const createTopic = async (req, res) => {
   }
 };
 
-// @desc    Update a topic
-// @route   PUT /api/topics/:id
-// @access  Private
+// Update a topic
 export const updateTopic = async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id);
@@ -72,9 +64,7 @@ export const updateTopic = async (req, res) => {
   }
 };
 
-// @desc    Delete a topic
-// @route   DELETE /api/topics/:id
-// @access  Private
+// Delete a topic
 export const deleteTopic = async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id);

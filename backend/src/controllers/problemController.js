@@ -1,8 +1,6 @@
 import Problem from '../models/Problem.js';
 
-// @desc    Get all problems
-// @route   GET /api/problems
-// @access  Private
+// Get all problems with optional topic filter
 export const getProblems = async (req, res) => {
   try {
     const { topic } = req.query;
@@ -18,9 +16,7 @@ export const getProblems = async (req, res) => {
   }
 };
 
-// @desc    Get single problem
-// @route   GET /api/problems/:id
-// @access  Private
+// Get problem by ID
 export const getProblemById = async (req, res) => {
   try {
     const problem = await Problem.findById(req.params.id).populate('topic', 'name');
@@ -35,9 +31,7 @@ export const getProblemById = async (req, res) => {
   }
 };
 
-// @desc    Get problems by topic
-// @route   GET /api/problems/topic/:topicId
-// @access  Private
+// Get problems by topic
 export const getProblemsByTopic = async (req, res) => {
   try {
     const problems = await Problem.find({ topic: req.params.topicId })
@@ -50,9 +44,7 @@ export const getProblemsByTopic = async (req, res) => {
   }
 };
 
-// @desc    Create a problem
-// @route   POST /api/problems
-// @access  Private
+// Create a new problem
 export const createProblem = async (req, res) => {
   try {
     const {
@@ -85,9 +77,7 @@ export const createProblem = async (req, res) => {
   }
 };
 
-// @desc    Update a problem
-// @route   PUT /api/problems/:id
-// @access  Private
+// Update a problem
 export const updateProblem = async (req, res) => {
   try {
     const problem = await Problem.findById(req.params.id);
@@ -113,9 +103,7 @@ export const updateProblem = async (req, res) => {
   }
 };
 
-// @desc    Delete a problem
-// @route   DELETE /api/problems/:id
-// @access  Private
+// Delete a problem
 export const deleteProblem = async (req, res) => {
   try {
     const problem = await Problem.findById(req.params.id);

@@ -1,15 +1,12 @@
-import Progress from '../models/Progress.js';
-import Problem from '../models/Problem.js';
-
-// @desc    Get user progress
-// @route   GET /api/progress
-// @access  Private
+import Progress from "../models/Progress.js";
+import Problem from "../models/Problem.js";
+// Get all progress for the authenticated user
 export const getUserProgress = async (req, res) => {
   try {
     const progress = await Progress.find({ user: req.user._id })
       .populate({
-        path: 'problem',
-        populate: { path: 'topic', select: 'name' }
+        path: "problem",
+        populate: { path: "topic", select: "name" },
       })
       .sort({ updatedAt: -1 });
 
@@ -19,15 +16,13 @@ export const getUserProgress = async (req, res) => {
   }
 };
 
-// @desc    Get progress for a specific problem
-// @route   GET /api/progress/problem/:problemId
-// @access  Private
+// Get progress for a specific problem
 export const getProblemProgress = async (req, res) => {
   try {
     const progress = await Progress.findOne({
       user: req.user._id,
       problem: req.params.problemId,
-    }).populate('problem');
+    }).populate("problem");
 
     res.json(progress || { completed: false });
   } catch (error) {
@@ -35,9 +30,7 @@ export const getProblemProgress = async (req, res) => {
   }
 };
 
-// @desc    Update or create progress
-// @route   POST /api/progress
-// @access  Private
+// Update or create progress for a problem
 export const updateProgress = async (req, res) => {
   try {
     const { problemId, completed, notes } = req.body;
@@ -45,7 +38,7 @@ export const updateProgress = async (req, res) => {
     // Verify problem exists
     const problem = await Problem.findById(problemId);
     if (!problem) {
-      return res.status(404).json({ message: 'Problem not found' });
+      return res.status(404).json({ message: "Problem not found" });
     }
 
     // Find existing progress or create new
@@ -56,7 +49,8 @@ export const updateProgress = async (req, res) => {
 
     if (progress) {
       // Update existing progress
-      progress.completed = completed !== undefined ? completed : progress.completed;
+      progress.completed =
+        completed !== undefined ? completed : progress.completed;
       progress.notes = notes !== undefined ? notes : progress.notes;
       progress.completedAt = completed ? new Date() : progress.completedAt;
       await progress.save();
@@ -71,11 +65,10 @@ export const updateProgress = async (req, res) => {
       });
     }
 
-    const populatedProgress = await Progress.findById(progress._id)
-      .populate({
-        path: 'problem',
-        populate: { path: 'topic', select: 'name' }
-      });
+    const populatedProgress = await Progress.findById(progress._id).populate({
+      path: "problem",
+      populate: { path: "topic", select: "name" },
+    });
 
     res.json(populatedProgress);
   } catch (error) {
@@ -83,9 +76,7 @@ export const updateProgress = async (req, res) => {
   }
 };
 
-// @desc    Get progress statistics
-// @route   GET /api/progress/stats
-// @access  Private
+// Get progress statistics for the authenticated user
 export const getProgressStats = async (req, res) => {
   try {
     const totalProblems = await Problem.countDocuments();
@@ -103,18 +94,18 @@ export const getProgressStats = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'problems',
-          localField: 'problem',
-          foreignField: '_id',
-          as: 'problemDetails',
+          from: "problems",
+          localField: "problem",
+          foreignField: "_id",
+          as: "problemDetails",
         },
       },
       {
-        $unwind: '$problemDetails',
+        $unwind: "$problemDetails",
       },
       {
         $group: {
-          _id: '$problemDetails.level',
+          _id: "$problemDetails.level",
           count: { $sum: 1 },
         },
       },
@@ -123,7 +114,10 @@ export const getProgressStats = async (req, res) => {
     res.json({
       totalProblems,
       completedProblems,
-      percentage: totalProblems > 0 ? ((completedProblems / totalProblems) * 100).toFixed(2) : 0,
+      percentage:
+        totalProblems > 0
+          ? ((completedProblems / totalProblems) * 100).toFixed(2)
+          : 0,
       byLevel: progressByLevel,
     });
   } catch (error) {
@@ -131,9 +125,7 @@ export const getProgressStats = async (req, res) => {
   }
 };
 
-// @desc    Delete progress
-// @route   DELETE /api/progress/:id
-// @access  Private
+// Delete progress entry
 export const deleteProgress = async (req, res) => {
   try {
     const progress = await Progress.findOne({
@@ -143,9 +135,9 @@ export const deleteProgress = async (req, res) => {
 
     if (progress) {
       await progress.deleteOne();
-      res.json({ message: 'Progress removed' });
+      res.json({ message: "Progress removed" });
     } else {
-      res.status(404).json({ message: 'Progress not found' });
+      res.status(404).json({ message: "Progress not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

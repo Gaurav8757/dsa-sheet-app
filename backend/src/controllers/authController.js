@@ -1,9 +1,6 @@
 import User from '../models/User.js';
 import generateToken from '../utils/generateToken.js';
-
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+// Register a new user
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -37,9 +34,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate user & get token
-// @route   POST /api/auth/login
-// @access  Public
+// Login user
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -62,9 +57,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// @desc    Get user profile
-// @route   GET /api/auth/profile
-// @access  Private
+// Get user profile
 export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
